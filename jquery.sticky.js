@@ -71,7 +71,7 @@
     },
     methods = {
       init: function(options) {
-        var o = $.extend(defaults, options);
+        var o = $.extend({}, defaults, options);
         return this.each(function() {
           var stickyElement = $(this);
 
@@ -102,7 +102,17 @@
           });
         });
       },
-      update: scroller
+      update: scroller,
+      reset: function() {
+        var stickyElement = $(this);
+        for (var i = 0; i < sticked.length; i++) {
+          if (sticked[i].stickyElement.is(stickyElement)) {
+            sticked[i].stickyElement.unwrap().attr('style', '');
+            sticked.splice(i, 1);
+            break;
+          }
+        }
+      }
     };
 
   // should be more efficient than using $window.scroll(scroller) and $window.resize(resizer):
